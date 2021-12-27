@@ -2,13 +2,14 @@ package com.example.bcsd_android.Task8_BottomNavigation
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.example.bcsd_android.R
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivityTask8 : AppCompatActivity() {
-    private val fragmentManager:FragmentManager = supportFragmentManager
     private val noteFragment = FragmentOne()
     private val calculatorFragment = FragmentTwo()
 
@@ -19,42 +20,40 @@ class MainActivityTask8 : AppCompatActivity() {
         startBottomNavigation()
     }
 
-    private fun startBottomNavigation(){
+    private fun startBottomNavigation() {
         val bottomNavi = findViewById<BottomNavigationView>(R.id.bottom_navigation)
 
-        fragmentManager
-            .beginTransaction()
-            .add(R.id.frame, calculatorFragment)
-            .add(R.id.frame, noteFragment)
-            .commit()
+        note(noteFragment)
 
         bottomNavi.setOnItemSelectedListener {
-            when (it.itemId){
+            when (it.itemId) {
                 R.id.menu_note_id -> {
-                    fragmentManager
-                        .beginTransaction()
-                        .show(noteFragment)
-                        .commit()
-                    fragmentManager
-                        .beginTransaction()
-                        .hide(calculatorFragment)
-                        .commit()
+                    note(noteFragment)
                     Toast.makeText(this, "Note", Toast.LENGTH_SHORT).show()
                 }
-                R.id.menu_calc_id ->{
-                    fragmentManager
-                        .beginTransaction()
-                        .show(calculatorFragment)
-                        .commit()
-                    fragmentManager
-                        .beginTransaction()
-                        .hide(noteFragment)
-                        .commit()
+                R.id.menu_calc_id -> {
+                    calculator(calculatorFragment)
                     Toast.makeText(this, "Calculator", Toast.LENGTH_SHORT).show()
                 }
             }
             true
         }
-
     }
+
+    private fun note(fragment: Fragment) {
+        val fragmentManager: FragmentManager = supportFragmentManager
+        fragmentManager
+            .beginTransaction()
+            .replace(R.id.frame, fragment)
+            .commit()
+    }
+
+    private fun calculator(fragment: Fragment) {
+        val fragmentManager: FragmentManager = supportFragmentManager
+        fragmentManager
+            .beginTransaction()
+            .replace(R.id.frame, fragment)
+            .commit()
+    }
+
 }
