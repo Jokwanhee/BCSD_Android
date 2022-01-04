@@ -25,12 +25,15 @@ class RecyclerAdapter() : RecyclerView.Adapter<RecyclerAdapter.ViewHolder>() {
     }
 
     fun replaceList(newList: MutableList<RecyclerData>) {
-        noteList = newList.toMutableList()
+//        noteList = newList.toMutableList()
+        noteList.clear()
+        noteList.addAll(newList)
         notifyDataSetChanged()
     }
 
     fun replaceName(position: Int, changeName: String) {
-        noteList.get(position).name = changeName
+//        noteList.get(position).name = changeName
+        noteList[position] = RecyclerData(changeName, R.drawable.ic_baseline_person_pin_24)
         notifyDataSetChanged()
     }
 
