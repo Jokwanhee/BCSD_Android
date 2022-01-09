@@ -30,7 +30,7 @@
             android:enabled="true"
             android:exported="true" />
         <activity
-            android:name=".Task8_BottomNavigation.MainActivityTask8"
+            android:name=".Task8_11_BottomNavigation_Coroutine_Tread.MainActivityTask8"
             android:exported="true" />
         <activity
             android:name=".MainActivity"

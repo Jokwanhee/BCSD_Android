@@ -10,4 +10,10 @@
         android:title="@string/menu_title_calculate"
         android:icon="@drawable/ic_baseline_calculate_24"/>
 
+    <item
+        android:id="@+id/menu_stopwatch_id"
+        android:title="@string/menu_title_stopwatch"
+        android:icon="@drawable/ic_baseline_watch_later_24"/>
+
+
 </menu>
