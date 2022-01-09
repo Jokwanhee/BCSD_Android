@@ -92,12 +92,13 @@ class FragmentOne : Fragment() {
 
     private fun addButton() {
         adapter.replaceList(noteList)
-        val onClickListener = binding.btnExtra.setOnClickListener {
+        binding.btnExtra.setOnClickListener {
             adapter.addName(name = binding.inputName.text.toString())
         }
         binding.noteRecycler.adapter = adapter
         binding.noteRecycler.layoutManager = LinearLayoutManager(view?.context)
     }
+
 
     private fun editEnabled(edit: EditText, button: Button) {
         edit.addTextChangedListener(object : TextWatcher {
@@ -116,6 +117,7 @@ class FragmentOne : Fragment() {
             }
         })
     }
+
 
     override fun onDestroyView() {
         mBinding = null
