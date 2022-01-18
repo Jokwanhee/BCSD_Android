@@ -1,4 +1,4 @@
-package com.example.bcsd_android.Task8_BottomNavigation
+package com.example.bcsd_android.Task8_11_BottomNavigation_Coroutine_Tread
 
 import android.os.Bundle
 import android.util.Log

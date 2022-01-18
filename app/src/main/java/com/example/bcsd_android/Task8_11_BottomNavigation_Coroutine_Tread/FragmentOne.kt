@@ -1,4 +1,4 @@
-package com.example.bcsd_android.Task8_BottomNavigation
+package com.example.bcsd_android.Task8_11_BottomNavigation_Coroutine_Tread
 
 import android.app.AlertDialog
 import android.os.Bundle
@@ -117,7 +117,6 @@ class FragmentOne : Fragment() {
             }
         })
     }
-
 
     override fun onDestroyView() {
         mBinding = null
