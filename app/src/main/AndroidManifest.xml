@@ -12,23 +12,33 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.BCSD_Android">
-
         <activity
-            android:name=".Task10_MusicPlayer.MusicActivity"
-            android:excludeFromRecents="true"
-            android:exported="true"
-            android:launchMode="singleInstance"
-            android:taskAffinity="">
+            android:name=".task12mvvm.BoardAddActivity"
+            android:exported="true" />
+        <activity
+            android:name=".task12mvvm.LoadingActivity"
+            android:exported="true" />
+        <activity
+            android:name=".task12mvvm.MvvmMainActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".Task10_MusicPlayer.MusicActivity"
+            android:excludeFromRecents="true"
+            android:exported="true"
+            android:launchMode="singleInstance"
+            android:taskAffinity=""></activity>
+
         <service
             android:name=".Task10_MusicPlayer.MusicService"
             android:enabled="true"
             android:exported="true" />
+
         <activity
             android:name=".Task8_11_BottomNavigation_Coroutine_Tread.MainActivityTask8"
             android:exported="true" />

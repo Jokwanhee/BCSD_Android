@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+        <variable
+            name="viewModelFragment"
+            type="com.example.bcsd_android.task12mvvm.viewmodel.MainViewModel" />
+        <variable
+            name="viewModelActivity"
+            type="com.example.bcsd_android.task12mvvm.viewmodel.MainViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".task12mvvm.MvvmMainActivity">
+
+        <FrameLayout
+            android:id="@+id/main_fragment_frame"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="@color/white"
+            app:layout_constraintBottom_toTopOf="@+id/main_bottom_navigation"
+            app:layout_constraintTop_toTopOf="parent">
+        </FrameLayout>
+
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/main_bottom_navigation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/main_fragment_frame"
+            app:menu="@menu/bottom_navigation_mvvm" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
