@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.bcsd_android.R
+import java.text.SimpleDateFormat
 
 class StopwatchAdapter(
     val labList: MutableList<StopwatchData>
@@ -13,27 +14,11 @@ class StopwatchAdapter(
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val labText = itemView.findViewById<TextView>(R.id.stopwatch_item_lab_text)
-        val millisecond = itemView.findViewById<TextView>(R.id.stopwatch_item_millisecond)
-        val second = itemView.findViewById<TextView>(R.id.stopwatch_item_second)
-        val minutes = itemView.findViewById<TextView>(R.id.stopwatch_item_minutes)
+        val time = itemView.findViewById<TextView>(R.id.stopwatch_item_time)
 
         fun bind(item: StopwatchData, position: Int) {
             labText.text = "랩" + (position + 1)
-            if (item.millisec < 10) {
-                millisecond.text = "0" + item.millisec
-            } else {
-                millisecond.text = item.millisec.toString()
-            }
-            if (item.sec < 10) {
-                second.text = "0" + item.sec
-            } else {
-                second.text = item.sec.toString()
-            }
-            if (item.min < 10) {
-                minutes.text = "0" + item.min
-            } else {
-                minutes.text = item.min.toString()
-            }
+            time.text = SimpleDateFormat("mm:ss:SS").format(item.time)
         }
     }
 
