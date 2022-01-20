@@ -10,16 +10,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.bcsd_android.R
 import com.example.bcsd_android.databinding.FragmentThreeBinding
 import kotlinx.coroutines.*
+import java.text.SimpleDateFormat
 import java.util.*
 
 class FragmentThree : Fragment() {
     private var mBinding: FragmentThreeBinding? = null
     private val binding get() = mBinding!!
-
-    private var time: Int = 0
-    private var timerTask: Timer? = null
-    private var isRunning: Boolean = false
-    private var minutes = 0
 
     private var labList = mutableListOf<StopwatchData>()
     val adapter = StopwatchAdapter(labList)
@@ -37,89 +33,54 @@ class FragmentThree : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.stopwatchButtonStart.setOnClickListener {
+        stopwatchPlayer()
+    }
+
+    private fun stopwatchPlayer() {
+        val scope = CoroutineScope(Dispatchers.Main)
+        var isRunning = false
+        var countTime: Long = 0
+
+        binding.stopwatchButtonStart.setOnClickListener { // 시작 버튼 클릭 시 이벤트
+            val mainTime = System.currentTimeMillis()
             isRunning = !isRunning
-            if (isRunning) { // 시작 버튼 클릭 시
-                binding.stopwatchButtonLab.setBackgroundResource(R.drawable.ic_baseline_check_circle_enabled24)
-                startTimer()
-            } else { // 정지 버튼 클릭 시
-                binding.stopwatchButtonLab.setBackgroundResource(R.drawable.ic_baseline_replay_24)
-                pauseStopwatch()
-            }
-        }
-        binding.stopwatchButtonLab.setOnClickListener {
-            if (isRunning) { // 랩 버튼 클릭 시
-                val manager = LinearLayoutManager(view.context)
-                labList.add(StopwatchData(time % 100, time / 100, minutes))
-                binding.stopwatchRecyclerView.adapter = adapter
-                manager.reverseLayout = true
-                manager.stackFromEnd = true
-                binding.stopwatchRecyclerView.layoutManager = manager
-            } else { // 초기화 버튼 클릭 시
-                binding.stopwatchButtonLab.setBackgroundResource(R.drawable.ic_baseline_check_circle_disenabled24)
-                isRunning = false
-                labList.clear()
-                binding.stopwatchRecyclerView.adapter = adapter
-                binding.stopwatchRecyclerView.layoutManager = LinearLayoutManager(view.context)
-                binding.stopwatchClockMillisecond.text = "00"
-                binding.stopwatchClockSecond.text = "00"
-                binding.stopwatchClockMinutes.text = "00"
-                time = 0
-                minutes = 0
-            }
-        }
-    }
+            val job: Job = scope.launch {
+                val scopeTime = System.currentTimeMillis()
+                if (isRunning) {
+                    binding.stopwatchButtonLab.isEnabled = true
+                    binding.stopwatchButtonLab.setBackgroundResource(R.drawable.ic_baseline_check_circle_enabled24)
+                    binding.stopwatchButtonStart.setBackgroundResource(R.drawable.ic_baseline_pause_circle_filled_24)
+                    while (isRunning) {
+                        countTime += scopeTime - mainTime
+                        val simpleCountTime = SimpleDateFormat("mm:ss:SS").format(countTime)
+                        binding.stopwatchButtonLab.setOnClickListener { // 타이머 중 랩 버튼 클릭 시 이벤트
+                            val manager = LinearLayoutManager(view?.context)
+                            labList.add(StopwatchData(countTime))
+                            manager.reverseLayout = true
+                            manager.stackFromEnd = true
+                            binding.stopwatchRecyclerView.layoutManager = manager
+                            binding.stopwatchRecyclerView.adapter = adapter
+                        }
+                        binding.stopwatchClockTime.text = simpleCountTime
+                        delay(10)
+                    }
+                } else { // 정지 버튼 클릭 시 이벤트
+                    binding.stopwatchButtonStart.setBackgroundResource(R.drawable.ic_baseline_not_started_24)
+                    binding.stopwatchButtonLab.setBackgroundResource(R.drawable.ic_baseline_replay_24)
+                    binding.stopwatchButtonLab.setOnClickListener { // 초기화 버튼 클릭 시 이벤트
+                        binding.stopwatchButtonLab.setBackgroundResource(R.drawable.ic_baseline_check_circle_disenabled24)
+                        binding.stopwatchButtonLab.isEnabled = false
+                        binding.stopwatchClockTime.text = "00:00:00"
+                        countTime = 0
+                        labList.clear()
+                        binding.stopwatchRecyclerView.adapter = adapter
+                    }
 
-    private fun startTimer() {
-        binding.stopwatchButtonStart.setBackgroundResource(R.drawable.ic_baseline_pause_circle_filled_24)
-        binding.stopwatchButtonLab.setBackgroundResource(R.drawable.ic_baseline_check_circle_enabled24)
-        binding.stopwatchButtonLab.isEnabled = true
-        timerTask = kotlin.concurrent.timer(period = 10) {
-            time++
-            var millisecond = time % 100
-            var second = time / 100
-            if (second == 60) {
-                time = 0
-                millisecond = 0
-                second = 0
-                minutes++
-            }
-            startStopwatch(millisecond, second, minutes)
-        }
-    }
-
-    private fun startStopwatch(millisecond: Int, second: Int, minutes: Int) {
-        CoroutineScope(Dispatchers.Main).launch {
-            val jobMillisecond = launch {
-                if (millisecond < 10) {
-                    binding.stopwatchClockMillisecond.text = "0" + millisecond
-                } else {
-                    binding.stopwatchClockMillisecond.text = millisecond.toString()
-                }
-            }.join()
-
-            val jobSecond = launch {
-                if (second < 10) {
-                    binding.stopwatchClockSecond.text = "0" + second
-                } else {
-                    binding.stopwatchClockSecond.text = second.toString()
-                }
-            }.join()
-
-            val jobMinutes = launch {
-                if (minutes < 10) {
-                    binding.stopwatchClockMinutes.text = "0" + minutes
-                } else {
-                    binding.stopwatchClockMinutes.text = minutes.toString()
                 }
             }
         }
     }
 
-    private fun pauseStopwatch() {
-        binding.stopwatchButtonStart.setBackgroundResource(R.drawable.ic_baseline_not_started_24)
-        timerTask?.cancel()
-    }
 
     override fun onDestroy() {
         mBinding = null

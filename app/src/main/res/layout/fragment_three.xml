@@ -19,46 +19,12 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/stopwatch_clock_minutes"
+                android:id="@+id/stopwatch_clock_time"
                 android:layout_width="wrap_content"
                 android:layout_height="300dp"
                 android:layout_marginStart="20dp"
                 android:gravity="center"
-                android:text="00"
-                android:textColor="@color/white"
-                android:textSize="95dp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="300dp"
-                android:gravity="center"
-                android:text=":"
-                android:textColor="@color/white"
-                android:textSize="95dp" />
-
-            <TextView
-                android:id="@+id/stopwatch_clock_second"
-                android:layout_width="wrap_content"
-                android:layout_height="300dp"
-                android:gravity="center"
-                android:text="00"
-                android:textColor="@color/white"
-                android:textSize="95dp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="300dp"
-                android:gravity="center"
-                android:text="."
-                android:textColor="@color/white"
-                android:textSize="95dp" />
-
-            <TextView
-                android:id="@+id/stopwatch_clock_millisecond"
-                android:layout_width="wrap_content"
-                android:layout_height="300dp"
-                android:gravity="center"
-                android:text="00"
+                android:text="00:00:00"
                 android:textColor="@color/white"
                 android:textSize="95dp" />
 
