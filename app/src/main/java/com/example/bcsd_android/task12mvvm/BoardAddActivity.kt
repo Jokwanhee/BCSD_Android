@@ -5,45 +5,33 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.bcsd_android.R
 import com.example.bcsd_android.databinding.ActivityBoardAddBinding
-import com.example.bcsd_android.databinding.Task12FragmentBoardBinding
-import com.example.bcsd_android.task12mvvm.model.BoardData
-import com.example.bcsd_android.task12mvvm.viewmodel.MainViewModel
 import java.util.*
 
 class BoardAddActivity : AppCompatActivity() {
 
-    private lateinit var viewModel: MainViewModel
     private lateinit var binding: ActivityBoardAddBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_board_add)
-        //        binding.lifecycleOwner = this
-    }
-
-    override fun onStart() {
-        super.onStart()
-
+        binding =
+            DataBindingUtil.setContentView(this, R.layout.activity_board_add)
         editButtonEnabled()
         editBoardContents()
     }
 
-
     private fun editBoardContents() {
         binding.boardAddEditButton.setOnClickListener {
-//            setResult(resultCode,intent)
             val intent = Intent()
-            intent.putExtra("title", binding.boardAddEditTextTitle.text.toString())
-            intent.putExtra("writer", binding.boardAddEditTextWriter.text.toString())
-            intent.putExtra("time", Date().time)
+            val title = binding.boardAddEditTextTitle.text.toString()
+            val writer = binding.boardAddEditTextWriter.text.toString()
+            val createdDate = Date().time
+            intent.putExtra("title", title)
+            intent.putExtra("writer", writer)
+            intent.putExtra("createdDate", createdDate)
             setResult(RESULT_OK, intent)
             finish()
         }
