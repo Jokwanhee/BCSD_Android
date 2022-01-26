@@ -1,19 +1,19 @@
-package com.example.bcsd_android.task12mvvm
+package com.example.bcsd_android.task12mvvm.adapter
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
 import com.example.bcsd_android.R
 import com.example.bcsd_android.task12mvvm.model.BoardData
 import com.example.bcsd_android.task12mvvm.model.toDateString
-import java.util.*
 import kotlin.collections.ArrayList
 
 class BoardAdapter(
+    var boardList: MutableLiveData<ArrayList<BoardData>>
 ) : RecyclerView.Adapter<BoardAdapter.ViewHolder>() {
-    val boardList = ArrayList<BoardData>()
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val title = itemView.findViewById<TextView>(R.id.board_title)
@@ -23,13 +23,8 @@ class BoardAdapter(
         fun bind(boardData: BoardData) {
             title.text = boardData.title
             writer.text = boardData.writer
-            createdDate.text = boardData.time.toDateString("yyyy.MM.dd HH:mm")
+            createdDate.text = boardData.createdDate.toDateString("yyyy.MM.dd HH:mm")
         }
-    }
-
-    fun addList(title: String, writer: String, time:Long) {
-        boardList.add(BoardData(title, writer, time))
-        notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -39,10 +34,10 @@ class BoardAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(boardList[position])
+        holder.bind(boardList.value!![position])
     }
 
     override fun getItemCount(): Int {
-        return boardList.size
+        return boardList.value!!.size
     }
 }

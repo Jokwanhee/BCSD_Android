@@ -6,7 +6,7 @@ import java.util.*
 data class BoardData(
     val title:String,
     val writer:String,
-    val time:Long
+    val createdDate:Long
 )
 
 fun Long.toDateString(format:String): String{
