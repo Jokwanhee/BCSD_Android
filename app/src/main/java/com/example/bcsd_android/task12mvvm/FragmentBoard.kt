@@ -33,13 +33,6 @@ class FragmentBoard : Fragment() {
                 val writer = it.data!!.getStringExtra("writer")
                 val createdDate = it.data!!.getLongExtra("createdDate", 0)
                 viewModel.insertList(title.toString(), writer.toString(), createdDate)
-                val listObserver = Observer<ArrayList<BoardData>> {
-                    data.value = it
-                    adapter = BoardAdapter(data)
-                    binding.mainRecyclerView.adapter = adapter
-                    binding.mainRecyclerView.layoutManager = LinearLayoutManager(context)
-                }
-                viewModel.itemList.observe(viewLifecycleOwner, listObserver)
             }
         }
 
@@ -57,6 +50,14 @@ class FragmentBoard : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val listObserver = Observer<ArrayList<BoardData>>{
+            data.value = it
+            adapter = BoardAdapter(data)
+            binding.mainRecyclerView.adapter = adapter
+            binding.mainRecyclerView.layoutManager = LinearLayoutManager(context)
+        }
+        viewModel.itemList.observe(viewLifecycleOwner, listObserver)
 
         startAddButton()
     }
